@@ -46,6 +46,15 @@ print <<<disp1
 		<a>任務</a>
 <!--	<a>アイテム屋</a> -->
 		<hr>
+		
+		<!---- ここからモード切替 ---->
+		<a>出撃</a>
+		<a href="kancolle_hclist.php">編成</a>
+		<a>補給</a>
+		<a>改装</a>
+		<a href="kancolle_dock.php">入居</a>
+		<a>工廠</a>
+		<hr>
 		</body>
 disp1;
 
@@ -53,7 +62,7 @@ disp1;
 print <<<disp2
 	資材を消費してしまいますが建造を行いますか？<br><br>
 	<form method="post" action="kancolle_building.php">
-	<input type="submit" value="建造する！">
+	<input type="submit" value="建造する！" style="HEIGHT:50px">
 	</form>
 disp2;
 

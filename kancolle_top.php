@@ -15,8 +15,6 @@ $player=mysql_fetch_array($p);
 $c=mysql_query("select havecards.key_number ,cards.name from havecards join cards 
 				on havecards.card_id=cards.id where player_id=$P_ID and decknum=1");
 $card=mysql_fetch_array($c);
-//デッキ情報の抽出
-$d=mysql_query("select * from decks where player_id=$P_ID");
 // ランク一覧の抽出
 $rank=mysql_query("select rank from player_ranks where rank_id=$player[10]");
 $rank_s=mysql_fetch_array($rank);
@@ -52,10 +50,10 @@ print <<<disp1
 		
 		<!---- ここからモード切替 ---->
 		<a>出撃</a>
-		<a href="kancolle_deck.php">編成</a>
+		<a href="kancolle_hclist.php">編成</a>
 		<a>補給</a>
 		<a>改装</a>
-		<a>入居</a>
+		<a href="kancolle_dock.php">入居</a>
 		<a href="kancolle_build.php">工廠</a>
 		<hr>
 		</body>

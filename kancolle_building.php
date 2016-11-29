@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**********	データベース情報などの読み込み	**********/
 require_once("data/db_info.php");
@@ -44,8 +44,8 @@ $c_status=$card[$ran][4];
 
 // ランダム生成した図鑑Noの艦娘をhavecardsにinsert
 mysql_query("
-			insert into havecards ( player_id, card_num, card_id, hp, maxhp) 
-				values( $P_ID, $hc_num, $ran+1, $c_hp, $c_hp)
+			insert into havecards ( player_id, card_num, card_id, hp, maxhp, status) 
+				values( $P_ID, $hc_num, $ran+1, $c_hp, $c_hp, $c_status)
 			")or die("艦娘追加失敗");
 
 /*************		建造処理終了	*****************/

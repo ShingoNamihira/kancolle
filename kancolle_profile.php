@@ -66,7 +66,7 @@ print <<<disp2
 	提督経験値：$player[2]
 	<br>
 	<form method="get" action="kancolle_profile.php">
-	<input type="text" name="co" size="20" maxlength="20" value=$player[9]>
+	<input type="text" name="co" size="30" maxlength="20" value=$player[9]>
 	<input type="submit" value="編集">
 	</form>
 

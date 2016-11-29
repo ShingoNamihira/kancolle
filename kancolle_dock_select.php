@@ -24,7 +24,7 @@ disp1;
 $c=mysql_query("select hc.card_num, cards.name, hc.level, hc.hp, hc.maxhp
 				from havecards as hc
 				join cards on hc.card_id=cards.id
-				where hc.player_id=$P_ID and hc.hp<hc.maxhp");
+				where hc.player_id=$P_ID and hc.hp<hc.maxhp and hc.state=0");
 if(mysql_num_rows($c)>0){
 print <<<disp2
 <table border='1'>

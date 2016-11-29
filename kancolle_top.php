@@ -31,8 +31,8 @@ print <<<disp1
 		<!--******	  UI	*********-->
 		<font size="7"><a href="kancolle_top.php">母港</a></font>
 		<!-- プレイヤーネーム -->
-		提督名 : $player[1]  
-		Lv.$player[7] [$rank_s[0]]
+		提督名 : $player[name]  
+		Lv.$player[level] [$rank_s[rank]]
 		<br>
 		<!-- 資材 -->
 		燃料：$player[3] 鋼材：$player[5] <br>

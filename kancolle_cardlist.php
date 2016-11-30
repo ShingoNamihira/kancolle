@@ -53,30 +53,28 @@ $c=mysql_query("select id,name,type,rare from cards");
 
 ?>
 
-<table border="1">
+<table cellpadding="2" border="1">
 <caption>図鑑一覧表示</caption>
 <tr>
-	<td>図鑑No</td>
-	<td>艦名</td>
-	<td>艦種</td>
-	<td>レア度</td>
+	<td align="center">図鑑No</td>
+	<td align="center">艦名</td>
+	<td align="center">艦種</td>
+	<td align="center">レア度</td>
 </tr>
 <?php
 while($c_st=mysql_fetch_array($c)){ 
 ?>
 	<tr>
-		<td><?php print $c_st[0] ?></td>
-		<td><?php print $c_st[1] ?></td>
-		<td><?php print $c_st[2] ?></td>
-		<td><?php print $c_st[3] ?></td>
+		<td align="center"><?php print $c_st[0] ?></td>
+		<td align="center"><?php print $c_st[1] ?></td>
+		<td align="center"><?php print $c_st[2] ?></td>
+		<td align="center"><?php print $c_st[3] ?></td>
 	</tr>
 
 <?php
 }
 ?>
-
 </table>
-
 <?php
 
 /*********	データベース切断	*********/

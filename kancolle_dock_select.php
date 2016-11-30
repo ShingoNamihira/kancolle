@@ -27,24 +27,31 @@ $c=mysql_query("select hc.card_num, cards.name, hc.level, hc.hp, hc.maxhp
 				where hc.player_id=$P_ID and hc.hp<hc.maxhp and hc.state=0");
 if(mysql_num_rows($c)>0){
 print <<<disp2
-<table border='1'>
-<h1>入渠する艦娘を選んでください</h1>
+<br><br><br>
+<table cellpadding="5" border='1'>
+<font size="6">入渠する艦娘を選んでください</font>
+<br><br>
 <tr>
-	<td>Lv</td>
-	<td>艦名</td>
-	<td>耐久</td>
+	<td align="center">Lv</td>
+	<td align="center">艦名</td>
+	<td align="center">耐久</td>
 </tr>
 disp2;
 
-while($c_st=mysql_fetch_array($c)or die(mysql_error())){ 
+while($c_st=mysql_fetch_array($c)){ 
 	if($c_st["hp"]>=$c_st["maxhp"])continue;
 	print	"<tr>";
 	print	"<td>".$c_st["level"]."</td>";
 	print	"<td>"."<a href='kancolle_dock.php?hc_id=$c_st[0]'>".$c_st["name"]."</a>"."</td>";
 	print	"<td>".$c_st["hp"]."/".$c_st["maxhp"]."</td>";
 	print	"</tr>";
+	flush();	// 表示させやすくするため
 }
-print "</table>";
+print <<<BACK
+</table>
+<br><br>
+<a href="kancolle_dock.php">前に戻る</a>
+BACK;
 }else{
 print <<<ZERO
 <br><br><br><br>

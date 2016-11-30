@@ -205,7 +205,7 @@ TABLE1;
 		print "<td>".$c["name"]."</td>";
 		print "<td>".$hc["level"]."</td>";
 		print "<td>".$hc["hp"]."/".$hc["maxhp"]."</td>";
-		print "<td>".$interval->format("%h:%i")."</td>";
+		print "<td>".$interval->format('%H:%I')."</td>";
 		print "</tr>";
 		print "</table>";
 		break;

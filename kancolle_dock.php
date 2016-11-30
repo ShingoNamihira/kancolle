@@ -193,19 +193,19 @@ print <<<TABLE1
 		<table border='1'>
 		<caption>入渠中艦娘</caption>
 		<tr>
-			<td>艦種</td>
-			<td>艦名</td>
-			<td>Ｌｖ</td>
-			<td>耐久</td>
+			<td align="center">艦種</td>
+			<td align="center">艦名</td>
+			<td align="center">Ｌｖ</td>
+			<td align="center">耐久</td>
 			<tb></tb>
 		</tr>
 TABLE1;
 		print "<tr>";
-		print "<td>".$c["type"]."</td>";
-		print "<td>".$c["name"]."</td>";
-		print "<td>".$hc["level"]."</td>";
-		print "<td>".$hc["hp"]."/".$hc["maxhp"]."</td>";
-		print "<td>".$interval->format('%H:%I')."</td>";
+		print "<td align='center'>".$c["type"]."</td>";
+		print "<td align='center'>".$c["name"]."</td>";
+		print "<td align='center'>".$hc["level"]."</td>";
+		print "<td align='center'>".$hc["hp"]."/".$hc["maxhp"]."</td>";
+		print "<td align='center'>".$interval->format('%H:%I')."</td>";
 		print "</tr>";
 		print "</table>";
 		break;

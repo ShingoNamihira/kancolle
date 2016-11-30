@@ -41,9 +41,9 @@ disp2;
 while($c_st=mysql_fetch_array($c)){ 
 	if($c_st["hp"]>=$c_st["maxhp"])continue;
 	print	"<tr>";
-	print	"<td>".$c_st["level"]."</td>";
-	print	"<td>"."<a href='kancolle_dock.php?hc_id=$c_st[0]'>".$c_st["name"]."</a>"."</td>";
-	print	"<td>".$c_st["hp"]."/".$c_st["maxhp"]."</td>";
+	print	"<td align='center'>".$c_st["level"]."</td>";
+	print	"<td align='center'>"."<a href='kancolle_dock.php?hc_id=$c_st[0]'>".$c_st["name"]."</a>"."</td>";
+	print	"<td align='center'>".$c_st["hp"]."/".$c_st["maxhp"]."</td>";
 	print	"</tr>";
 	flush();	// 表示させやすくするため
 }

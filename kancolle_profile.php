@@ -23,41 +23,10 @@ if($co_d<>""){
 				or die("編集失敗しました");
 	$player[9]=$co_d;
 }
-/*************	タイトル、画像などの表示	*************/
-print <<<disp1
-	<html>
-		<head>
-			<meta http-equiv="Content-Type"
-			 content="text/html;charset=shift_JIS">
-			<title>艦これ</title>
-		</head>
-		<body BGCOLOR="lightsteelblue">
-		<!--******	  UI	*********-->
-		<font size="7"><a href="kancolle_top.php">母港</a></font>
-		<!-- プレイヤーネーム -->
-		提督名 : $player[1]  
-		Lv.$player[7] [$rank_s[0]]
-		<br>
-		燃料：$player[3] 
-		弾薬：$player[4] 
-		鋼材：$player[5] 
-		ボーキ：$player[6]
-		
-		<br>
-		<hr>
-		<a>戦績表示</a>
-		<a href="kancolle_cardlist.php">図鑑表示</a>
-		<a>アイテム</a>
-<!--	<a>模様替え</a> -->
-		<a>任務</a>
-<!--	<a>アイテム屋</a> -->
-		<hr>
-		
-		</body>
-		
-disp1;
+//************ テンプレ表示
+require_once("data/template.php");
 
-print <<<disp2
+print <<<profile
 	<!---- ここからモード切替 ---->
 	<font size="6"> 提督名：$player[1]</font>
 	<br>
@@ -70,7 +39,7 @@ print <<<disp2
 	<input type="submit" value="編集">
 	</form>
 
-disp2;
+profile;
 
 
 /*********	データベース切断	*********/

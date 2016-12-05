@@ -19,56 +19,56 @@ $card=mysql_fetch_array($c);
 $rank=mysql_query("select rank from player_ranks where rank_id=$player[10]");
 $rank_s=mysql_fetch_array($rank);
 
-/*************	タイトル、画像などの表示	*************/
-print <<<disp1
-	<html>
-		<head>
-			<meta http-equiv="Content-Type"
-			 content="text/html;charset=shift_JIS">
-			<title>艦これ</title>
-		</head>
-		<body BGCOLOR="lightsteelblue">
-		<!--******	  UI	*********-->
-		<font size="7"><a href="kancolle_top.php">母港</a></font>
-		<!-- プレイヤーネーム -->
-		提督名 : $player[name]  
-		Lv.$player[level] [$rank_s[rank]]
-		<br>
-		<!-- 資材 -->
-		燃料：$player[3] 鋼材：$player[5] <br>
-		弾薬：$player[4] ボーキ：$player[6]
-		
-		<br>
-		<hr>
-		<a href="kancolle_profile.php">戦績表示</a>
-		<a href="kancolle_cardlist.php">図鑑表示</a>
-		<a>アイテム</a>
-<!--	<a>模様替え</a> -->
-		<a>任務</a>
-<!--	<a>アイテム屋</a> -->
-		<hr>
-		
+//************ テンプレ表示
+require_once("data/template.php");
+
+// *******モード切替描画
+print <<<modechange
 		<!---- ここからモード切替 ---->
 		<a>出撃</a>
-		<a href="kancolle_hclist.php">編成</a>
+		<a href="kancolle_deck.php">編成</a>
 		<a>補給</a>
 		<a>改装</a>
 		<a href="kancolle_dock.php">入居</a>
 		<a href="kancolle_build.php">工廠</a>
 		<hr>
 		</body>
-disp1;
+modechange;
 
-/*******	内容表示	*****/
-print <<<disp2
-<!--******	  波平追加	*********-->
-	秘書官：$card[0] $card[1]
-<!--******	  波平追加終了	*********-->
-	
-disp2;
+/*******	秘書官表示	*****/
+// デッキのid1の中身を取得
+$deck_id1_list=mysql_query("select id1 from decks where player_id='$P_ID'")
+					or die("所持艦娘id抽出失敗<br>".mysql_error());
+$deck_id1=mysql_fetch_array($deck_id1_list);
+// ↑を利用して艦娘情報を取得
+$secret_list=mysql_query("select cards.name
+				from havecards as hc
+				join cards on hc.card_id=cards.id
+				where hc.player_id='$P_ID' and hc.card_num='$deck_id1[id1]'")
+				or die("所持艦娘リスト作成失敗<br>".mysql_error());
+$secret=mysql_fetch_array($secret_list);
+print <<<secretary
+	<font size="6">秘書官:</font>
+	<font size="7">$secret[name]</font>
+	<br>
+secretary;
 
 /*********	データベース切断	*********/
 mysql_close($s);
 
 ?>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

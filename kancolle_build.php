@@ -18,53 +18,30 @@ $card=mysql_fetch_array($c);
 $rank=mysql_query("select rank from player_ranks where rank_id=$player[10]");
 $rank_s=mysql_fetch_array($rank);
 
-/*************	タイトル、画像などの表示	*************/
-print <<<disp1
-	<html>
-		<head>
-			<meta http-equiv="Content-Type"
-			 content="text/html;charset=shift_JIS">
-			<title>艦これ</title>
-		</head>
-		<body BGCOLOR="lightsteelblue">
-		<!--******	  UI	*********-->
-		<font size="7"><a href="kancolle_top.php">母港</a></font>
-		<!-- プレイヤーネーム -->
-		提督名 : $player[1]  
-		Lv.$player[7] [$rank_s[0]]
-		<br>
-		<!-- 資材 -->
-		燃料：$player[3] 鋼材：$player[5] <br>
-		弾薬：$player[4] ボーキ：$player[6]
-		
-		<br>
-		<hr>
-		<a href="kancolle_profile.php">戦績表示</a>
-		<a href="kancolle_cardlist.php">図鑑表示</a>
-		<a>アイテム</a>
-<!--	<a>模様替え</a> -->
-		<a>任務</a>
-<!--	<a>アイテム屋</a> -->
-		<hr>
-		
+//************ テンプレ表示
+require_once("data/template.php");
+
+// *******モード切替描画
+print <<<modechange
 		<!---- ここからモード切替 ---->
 		<a>出撃</a>
-		<a href="kancolle_hclist.php">編成</a>
+		<a href="kancolle_deck.php">編成</a>
 		<a>補給</a>
 		<a>改装</a>
 		<a href="kancolle_dock.php">入居</a>
-		<a>工廠</a>
+		<a href="kancolle_build.php">工廠</a>
 		<hr>
 		</body>
-disp1;
+modechange;
+
 
 /*******	内容表示	*****/
-print <<<disp2
+print <<<build_disp
 	資材を消費してしまいますが建造を行いますか？<br><br>
 	<form method="post" action="kancolle_building.php">
 	<input type="submit" value="建造する！" style="HEIGHT:50px">
 	</form>
-disp2;
+build_disp;
 
 /*********	データベース切断	*********/
 mysql_close($s);

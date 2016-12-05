@@ -21,45 +21,22 @@ $player=mysql_fetch_array($p);
 $rank=mysql_query("select rank from player_ranks where rank_id=$player[10]");
 $rank_s=mysql_fetch_array($rank);
 
-/*************	タイトル、画像などの表示	*************/
-print <<<disp1
-	<html>
-		<head>
-			<meta http-equiv="Content-Type"
-			 content="text/html;charset=shift_JIS">
-			<title>艦これ</title>
-		</head>
-		<body BGCOLOR="lightsteelblue">
-		<!--******	  UI	*********-->
-		<font size="7"><a href="kancolle_top.php">母港</a></font>
-		<!-- プレイヤーネーム -->
-		提督名 : $player[1]  
-		Lv.$player[7] [$rank_s[0]]
-		<br>
-		<!-- 資材 -->
-		燃料：$player[3] 鋼材：$player[5] <br>
-		弾薬：$player[4] ボーキ：$player[6]
-		
-		<br>
-		<hr>
-		<a href="kancolle_profile.php">戦績表示</a>
-		<a href="kancolle_cardlist.php">図鑑表示</a>
-		<a>アイテム</a>
-<!--	<a>模様替え</a> -->
-		<a>任務</a>
-<!--	<a>アイテム屋</a> -->
-		<hr>
-		
+//************ テンプレ表示
+require_once("data/template.php");
+
+// *******モード切替描画
+print <<<modechange
 		<!---- ここからモード切替 ---->
 		<a>出撃</a>
-		<a href="kancolle_hclist.php">編成</a>
+		<a href="kancolle_deck.php">編成</a>
 		<a>補給</a>
 		<a>改装</a>
-		<a>入居</a>
+		<a href="kancolle_dock.php">入居</a>
 		<a href="kancolle_build.php">工廠</a>
 		<hr>
 		</body>
-disp1;
+modechange;
+
 // 入居情報取得
 $dock=mysql_query("select flg,havecard_id,move_time 
 					from docks where player_id='$P_ID'")
@@ -165,7 +142,7 @@ if(strtotime($f_s)<=strtotime($n_s)){
 				or die("0にflgアプデ失敗".mysql_error());	
 
 print <<<NOT
-		空いたばかりで<br>
+		先ほど艦娘が「回復した」と言って出ていかれましたので<br>
 		現在入居中の艦娘はいらっしゃいません('◇')ゞ<br><br><br>
 NOT;
 print <<<WHAT
@@ -190,7 +167,7 @@ WHAT;
 	// 入居中情報表示開始
 	$interval=date_diff($n_d,$f_d);//++++++++++++++++++++++	結果がちゃんと帰ってきてない
 print <<<TABLE1
-		<table border='1'>
+		<table cellpadding="5" border='1'>
 		<caption>入渠中艦娘</caption>
 		<tr>
 			<td align="center">艦種</td>

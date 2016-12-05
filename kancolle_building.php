@@ -55,7 +55,7 @@ print <<<disp1
 	<html>
 		<head>
 			<meta http-equiv="Content-Type"
-			 content="text/html;charset=shift_JIS">
+			 content="text/html;charset=utf-8">
 			<title>艦これ</title>
 		</head>
 		<body BGCOLOR="lightsteelblue">

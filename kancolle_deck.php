@@ -21,6 +21,18 @@ $rank_s=mysql_fetch_array($rank);
 
 //************ テンプレ表示
 require_once("data/template.php");
+// *******モード切替描画
+print <<<modechange
+		<!---- ここからモード切替 ---->
+		<a>出撃</a>
+		<a href="kancolle_deck.php">編成</a>
+		<a href="kancolle_supply.php">補給</a>
+		<a>改装</a>
+		<a href="kancolle_dock.php">入居</a>
+		<a href="kancolle_build.php">工廠</a>
+		<hr>
+		</body>
+modechange;
 /*		メモ
 
 */
@@ -38,7 +50,17 @@ $list_num=isset($_GET["list_num"])?$_GET["list_num"]:null;
 $cc_id=isset($_GET["cc_id"])?$_GET["cc_id"]:null;
 // 交換元デッキid取得
 $hc_id=isset($_GET["hc_id"])?$_GET["hc_id"]:null;
+// デッキ名取得
+$d_name=isset($_GET["d_name"])?htmlspecialchars($_GET["d_name"]):null;
 /*--------------------	前ページ情報取得	--------------------*/
+
+/*++++++++++++++++++++	デッキ名変更処理開始	++++++++++++++++++++*/
+if($d_name!=null){
+	mysql_query("update decks set name = '$d_name'
+				where player_id=$P_ID and decknum='$d_num'")
+				or die("デッキ名編集失敗しました");
+}
+/*--------------------	デッキ名変更処理終了	--------------------*/
 
 /*++++++++++++++++++++	外すコマンドあった時の処理開始	++++++++++++++++++++*/
 if($out_num!=null){		// 外すコマンドがあれば処理
@@ -229,10 +251,15 @@ $d_info=mysql_fetch_array($deck_info);
 for($i=0; $i<6; $i++){
 	$c_id_array[]=$d_info[2+$i];
 }
+print <<<deck_name
+	
+	<form method="get" action="kancolle_deck.php">
+	<font size="6">[$d_num]艦隊名：</font><input type="text" name="d_name" maxlength="10" style="font-size:25px;width:240px;height:35px;" value=$d_info[name]>
+	<input type="submit" style="font-size:23px;width:70px;height:35px;" value="編集">
+deck_name;
+
 print <<<T_Disp
-<br>
-<font size="6">[$d_num]$d_info[name]</font>
-<br>
+<br><br>
 <table cellpadding="5" border='1'>
 <tr>
 	<td></td>
@@ -261,7 +288,11 @@ for($count=1, $flg=false; $count<=6; $count++){ // 一覧をループで表示
 		print	"<td align='center'>".$c_info["name"]."</td>";
 		print	"<td align='center'>".$c_info["hp"]."/".$c_info["maxhp"]."</td>";
 		print	"<td align='center'>"."<a href='kancolle_deck_select.php?d_num=$d_num&list_num=$count&hc_id=$c_info[0]'>"."変更"."</a>"."</td>";
-		print	"<td align='center'>"."<a href='kancolle_deck.php?d_num=$d_num&out_num=$count&out_id=$c_info[0]'>"."外す"."</a>"."</td>";
+		if($count==1 && $c_id_array[$c+1]==0){
+			print	"<td width='35' align='center'>"."</td>";
+		}else{
+			print	"<td width='35' align='center'>"."<a href='kancolle_deck.php?d_num=$d_num&out_num=$count&out_id=$c_info[0]'>"."外す"."</a>"."</td>";
+		}
 		print	"</tr>";
 		flush();	// 表示させやすくするため
 	}else if($flg==false){
@@ -272,7 +303,7 @@ for($count=1, $flg=false; $count<=6; $count++){ // 一覧をループで表示
 		print	"<td align='center'>"."</td>";
 		print	"<td align='center'>"."</td>";
 		print	"<td align='center'>"."<a href='kancolle_deck_select.php?d_num=$d_num&list_num=$count'>"."追加"."</a>"."</td>";
-		print	"<td align='center'>"."</td>";
+		print	"<td width='35' align='center'>"."</td>";
 		print	"</tr>";
 		$flg=true;
 	}else{

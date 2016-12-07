@@ -3,7 +3,7 @@
 /**********	データベース情報などの読み込み	**********/
 require_once("data/db_info.php");
 
-/************	データベースへ接続、デーたベース選択	***********/
+/************	データベースへ接続、データベース選択	***********/
 $s=mysql_connect($SERV,$USER,$PASS) or die("失敗しました");
 mysql_select_db($DBNM);
 
@@ -27,7 +27,7 @@ print <<<modechange
 		<!---- ここからモード切替 ---->
 		<a>出撃</a>
 		<a href="kancolle_deck.php">編成</a>
-		<a>補給</a>
+		<a href="kancolle_supply.php">補給</a>
 		<a>改装</a>
 		<a href="kancolle_dock.php">入居</a>
 		<a href="kancolle_build.php">工廠</a>

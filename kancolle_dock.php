@@ -29,7 +29,7 @@ print <<<modechange
 		<!---- ここからモード切替 ---->
 		<a>出撃</a>
 		<a href="kancolle_deck.php">編成</a>
-		<a>補給</a>
+		<a href="kancolle_supply.php">補給</a>
 		<a>改装</a>
 		<a href="kancolle_dock.php">入居</a>
 		<a href="kancolle_build.php">工廠</a>

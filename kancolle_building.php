@@ -7,6 +7,18 @@ require_once("data/db_info.php");
 $s=mysql_connect($SERV,$USER,$PASS) or die("失敗しました");
 mysql_select_db($DBNM);
 
+/*************	タイトル、画像などの表示	*************/
+print <<<disp1
+	<html>
+		<head>
+			<meta http-equiv="Content-Type"
+			 content="text/html;charset=utf-8">
+			<title>艦これ</title>
+		</head>
+		<body BGCOLOR="lightsteelblue">
+		</body>
+disp1;
+
 // 提督情報の抽出
 $p=mysql_query("select fuel,bullet,steel,bauxite 
 				from players where player_id=$P_ID");
@@ -16,6 +28,10 @@ $c=mysql_query("select * from cards");
 while($value=mysql_fetch_array($c,MYSQL_NUM)){
 	$card[]=$value;
 }
+$use_material = 100;		// 	消費資材
+
+if($player["fuel"]>=$use_material and $player["bullet"]>=$use_material and
+	$player["steel"]>=$use_material and $player["bauxite"]>=$use_material){
 
 // 所持艦娘情報の抽出
 $hc=mysql_query("select card_id from havecards where player_id=$P_ID");
@@ -25,7 +41,7 @@ $hc_num=mysql_num_rows($hc)+1;
 // ランダムで図鑑Noの中から一つ数値を生成
 $ran=rand(0, count($card)-1);
 // プレイヤーの資材を減らす
-$use_material = 100;
+
 $fuel = $player[0] - $use_material;
 $bullet = $player[1] - $use_material;
 $steel = $player[2] - $use_material;
@@ -47,21 +63,6 @@ mysql_query("
 			insert into havecards ( player_id, card_num, card_id, hp, maxhp) 
 				values( $P_ID, $hc_num, $ran+1, $c_hp, $c_hp)
 			")or die("艦娘追加失敗<br>".mysql_error());
-
-/*************		建造処理終了	*****************/
-
-/*************	タイトル、画像などの表示	*************/
-print <<<disp1
-	<html>
-		<head>
-			<meta http-equiv="Content-Type"
-			 content="text/html;charset=utf-8">
-			<title>艦これ</title>
-		</head>
-		<body BGCOLOR="lightsteelblue">
-		</body>
-disp1;
-
 $c_name=$card[$ran][1];		// キャラ名格納
 /*******	内容表示	*****/
 print <<<disp2
@@ -77,7 +78,16 @@ print <<<disp2
 	
 	<a href="kancolle_build.php">戻る</a>
 disp2;
+/*************		建造処理終了	*****************/
+}else{
+print <<<nomaterial
+	<font size="6">
+	建造するには資材が足りません(´･ω･｀)<br>
+	</font>
 
+nomaterial;
+
+}
 /*********	データベース切断	*********/
 mysql_close($s);
 

@@ -103,19 +103,13 @@ else if($sup_list_st!=null){		// 番号チェック時
 
 /*++++++++++++++++++++	現在デッキ内にいる艦娘情報抽出を表示開始	++++++++++++++++++++*/
 // デッキ情報の抽出
-// $deck_info=mysql_query("select decknum, name, id1, id2, id3, id4, id5, id6
-			// from decks where Player_id='$P_ID' and decknum='$d_num'");
-// $d_info=mysql_fetch_array($deck_info);
+$deck_info=mysql_query("select decknum, name, id1, id2, id3, id4, id5, id6
+			from decks where Player_id='$P_ID' and decknum='$d_num'");
+$d_info=mysql_fetch_array($deck_info);
 // デッキ情報から艦娘idだけを抜き出し
-// for($i=0; $i<6; $i++){
-	// $c_id_array[]=$d_info[2+$i];
-// }
-$deck_list=mysql_query("select hc.card_num, cards.name, cards.type, hc.level, hc.fuel, hc.bullet
-							from havecards as hc
-							join cards on hc.card_id=cards.id
-							where hc.player_id='$P_ID' and hc.decknum='$d_num'")
-							or die("リスト作成失敗<br>".mysql_error());
-//$k_list=mysql_fetch_array($kanmusu_list);
+for($i=0; $i<6; $i++){
+	$c_id_array[]=$d_info[2+$i];
+}
 /*--------------------	現在デッキ内にいる艦娘情報抽出を表示終了	--------------------*/
 
 /*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*+*
@@ -156,39 +150,45 @@ print <<<list_title
 </tr>
 list_title;
 $count=1;
-while($d_list=mysql_fetch_array($deck_list)){
-	print	"<tr>";
-	print	"<td align='center'>"."<input type='checkbox' name='supply_list[]' value='$d_list[card_num]'>"."</td>";
-	print	"<td align='center'>".$count."</td>";
-	print	"<td align='center'>".$d_list["name"]."</td>";
-	print	"<td align='center'>".$d_list["level"]."</td>";
-	$num_st="";
-	for($i=0;$i<$d_list["fuel"];$i++){
-		$num_st.="▬";
+for($count=1; $count<=6; $count++){
+	$c=$count-1;
+	$deck_list=mysql_query("select hc.card_num, cards.name, cards.type, hc.level, hc.fuel, hc.bullet
+						from havecards as hc
+						join cards on hc.card_id=cards.id
+						where hc.player_id='$P_ID' and hc.decknum='$d_num' and hc.card_num=$c_id_array[$c]")
+						or die("リスト作成失敗<br>".mysql_error());
+	$d_list=mysql_fetch_array($deck_list);
+	if($d_list!=FALSE){
+		print	"<tr>";
+		print	"<td align='center'>"."<input type='checkbox' name='supply_list[]' value='$d_list[card_num]'>"."</td>";
+		print	"<td align='center'>".$count."</td>";
+		print	"<td align='center'>".$d_list["name"]."</td>";
+		print	"<td align='center'>".$d_list["level"]."</td>";
+		$num_st="";
+		for($i=0;$i<$d_list["fuel"];$i++){
+			$num_st.="▬";
+		}
+		print	"<td width='110' align='left'>".$num_st."</td>";
+		$num_st="";
+		for($i=0;$i<$d_list["bullet"];$i++){
+			$num_st.="▬";
+		}
+		print	"<td width='110' align='left'>".$num_st."</td>";
+		print	"<td align='center'>".((10-$d_list["fuel"])*$d_list["type"])."</td>";
+		print	"<td align='center'>".((10-$d_list["bullet"])*$d_list["type"])."</td>";
+		print	"</tr>";
+	}else{
+		print	"<tr>";
+		print	"<td align='center'>"."</td>";
+		print	"<td align='center'>".$count."</td>";
+		print	"<td align='center'>"."NO DATA"."</td>";
+		print	"<td align='center'>"."</td>";
+		print	"<td width='110' align='left'>"."</td>";
+		print	"<td width='110' align='left'>"."</td>";
+		print	"<td align='center'>"."</td>";
+		print	"<td align='center'>"."</td>";
+		print	"</tr>";
 	}
-	print	"<td width='110' align='left'>".$num_st."</td>";
-	$num_st="";
-	for($i=0;$i<$d_list["bullet"];$i++){
-		$num_st.="▬";
-	}
-	print	"<td width='110' align='left'>".$num_st."</td>";
-	print	"<td align='center'>".((10-$d_list["fuel"])*$d_list["type"])."</td>";
-	print	"<td align='center'>".((10-$d_list["bullet"])*$d_list["type"])."</td>";
-	print	"</tr>";
-	$count++;
-}
-while($count<=6){
-	print	"<tr>";
-	print	"<td align='center'>"."</td>";
-	print	"<td align='center'>".$count."</td>";
-	print	"<td align='center'>"."NO DATA"."</td>";
-	print	"<td align='center'>"."</td>";
-	print	"<td width='110' align='left'>"."</td>";
-	print	"<td width='110' align='left'>"."</td>";
-	print	"<td align='center'>"."</td>";
-	print	"<td align='center'>"."</td>";
-	print	"</tr>";
-	$count++;
 }
 print "</table>";
 print "<br><br><input type='submit' value='補給する' style='font-size:25px'>";

@@ -80,7 +80,7 @@ if($hc_id!=null){
 		// 配列作成
 		while($ni_id=mysql_fetch_array($notin_id_list)){
 			$ni_list[]=$ni_id["card_id"];
-		}print_r($ni_list);print "<br>";
+		}//print_r($ni_list);print "<br>";
 		
 		// 配列からリストを文字列に変換
 		$ni_list_st=implode(",", $ni_list);

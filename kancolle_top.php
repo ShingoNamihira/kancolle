@@ -36,15 +36,11 @@ print <<<modechange
 modechange;
 
 /*******	秘書官表示	*****/
-// デッキのid1の中身を取得
-$deck_id1_list=mysql_query("select id1 from decks where player_id='$P_ID'")
-					or die("所持艦娘id抽出失敗<br>".mysql_error());
-$deck_id1=mysql_fetch_array($deck_id1_list);
-// ↑を利用して艦娘情報を取得
+// サブクエリを利用して艦娘情報を取得
 $secret_list=mysql_query("select cards.name
 				from havecards as hc
 				join cards on hc.card_id=cards.id
-				where hc.player_id='$P_ID' and hc.card_num='$deck_id1[id1]'")
+				where hc.player_id='$P_ID' and hc.card_num=(select id1 from decks where player_id='$P_ID')")
 				or die("所持艦娘リスト作成失敗<br>".mysql_error());
 $secret=mysql_fetch_array($secret_list);
 print <<<secretary

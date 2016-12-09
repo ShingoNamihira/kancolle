@@ -39,7 +39,7 @@ modechange;
 print <<<build_disp
 	資材を消費してしまいますが建造を行いますか？<br><br>
 	<form method="post" action="kancolle_building.php">
-	<input type="submit" value="建造する！" style="HEIGHT:50px">
+	<input type="submit" value="建造する！" style="HEIGHT:50px;font-size:25px">
 	</form>
 build_disp;
 
